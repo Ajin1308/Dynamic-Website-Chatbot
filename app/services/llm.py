@@ -1,6 +1,6 @@
 from langchain_openai import AzureChatOpenAI
 from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnablePassthrough
+from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from app.config import settings
 
 class LLMService:
@@ -25,7 +25,7 @@ class LLMService:
     
     async def generate_response(self, query, context):
         """Generate a response using the LLM with the new Runnable interface"""
-    
+        print(f"Generating response for query: {query} with context: {context}")
         chain = (
             {"query": RunnablePassthrough(), "context": RunnablePassthrough()} 
             | self.prompt
