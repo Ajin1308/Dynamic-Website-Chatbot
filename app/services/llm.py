@@ -25,16 +25,10 @@ class LLMService:
     
     async def generate_response(self, query, context):
         """Generate a response using the LLM with the new Runnable interface"""
-        def log_prompt(input_data):
-            prompt_str = self.prompt.format(**input_data)
-            print("\n====== LLM Prompt ======")
-            print(prompt_str)
-            print("========================\n")
-            return prompt_str
     
         chain = (
             {"query": RunnablePassthrough(), "context": RunnablePassthrough()} 
-            | log_prompt
+            | self.prompt
             | self.llm
         )
         result = await chain.ainvoke({"query": query, "context": context})
